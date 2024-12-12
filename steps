@@ -72,18 +72,46 @@ library(reader)
 
 ********************************************************************
 #### steps 
-R
-
-install.packages("DESeq2")
-install.packages("ggplot2")
-
+# Install and load necessary packages
+install.packages("ggplot2")  # For visualization
+BiocManager::install("DESeq2")  # For differential expression analysis
 library(DESeq2)
 library(ggplot2)
-# Load Your Dataset
-# Load the dataset
-data_file <- "/Users/madhuchavali/Downloads/GSE283983.csv"
-count_data <- read.csv(data_file, row.names = 1, check.names = FALSE)
 
-# Check the first few rows
-head(count_data)
+# Load the data
+data_file <- "/path/to/your/data.csv"
+count_data <- read.csv(data_file, check.names = FALSE, row.names = NULL)
+
+# Assign row names from 'Feature ID' column and remove 'Feature ID'
+rownames(count_data) <- count_data$Feature.ID  # Assuming 'Feature ID' should be row names
+count_data <- count_data[, -1]  # Remove 'Feature ID' column
+
+# Create colData (metadata) with sample conditions
+col_data <- data.frame(
+  condition = factor(c("wild_type", "wild_type", "lin-9", "lin-9", "lin-15b", "lin-15b", "lin-35", "lin-35", "lin-52", "lin-52"))
+)
+
+# Check and clean count data (remove non-numeric columns)
+count_data_numeric <- count_data[, c("wild type_rep_1", "wild type_rep_2", "lin-9_rep_1", "lin-9_rep_2", "lin-15b_rep_1", "lin-15b_rep_2", "lin-35_rep_1", "lin-35_rep_2", "lin-52_rep_1", "lin-52_rep_2")]
+
+# Check for negative values (DESeq2 does not accept negative counts)
+if (any(count_data_numeric < 0)) {
+  print("Negative values detected!")
+} else {
+  print("No negative values.")
+}
+
+# Round counts to integers (DESeq2 requires integer counts)
+count_data_integer <- round(count_data_numeric)
+
+# Create DESeqDataSet from the cleaned data
+dds <- DESeqDataSetFromMatrix(
+  countData = count_data_integer,
+  colData = col_data,
+  design = ~ condition
+)
+
+# Summary of DESeqDataSet object
+dds
+
 
