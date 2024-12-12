@@ -1,1 +1,2 @@
+# Install Nextflow with a single command; https://github.com/nextflow-io/nextflow
 curl -fsSL https://get.nextflow.io | bash
