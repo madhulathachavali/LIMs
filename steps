@@ -1,2 +1,69 @@
 # Install Nextflow with a single command; https://github.com/nextflow-io/nextflow
 curl -fsSL https://get.nextflow.io | bash
+
+Steps to Use the Nextflow Script:
+1. Install Nextflow
+
+brew install nextflow
+
+
+2. Create a Nextflow Workflow
+create a directory to store Nextflow script and associated files. 
+
+bash
+Copy code
+mkdir ~/nextflow_workflow
+cd ~/nextflow_workflow
+
+3. Create a Nextflow Script (e.g., main.nf)
+Create a file named main.nf in the directory containing your Nextflow process and workflow logic.
+
+Open a text editor (e.g., nano, vim, or any IDE you like) and create the Nextflow script.
+
+bash
+Copy code
+nano main.nf
+Inside main.nf, add your Nextflow process:
+
+groovy
+Copy code
+#!/usr/bin/env nextflow
+
+process analyzeGeneExpression {
+
+    input:
+    path gene_expression_data
+
+    output:
+    path "differential_expression_results.csv"
+
+    script:
+    """
+    # R script for analyzing the gene expression data
+    Rscript analyze_expression.R $gene_expression_data
+    """
+}
+
+workflow {
+    // Specify the path to your CSV file on your Mac
+    gene_expression_file = "/Users/madhuchavali/Desktop/Gene_expression.csv"
+
+    // Run the process with the provided file
+    analyzeGeneExpression(gene_expression_file)
+}
+4. Create the R Script (e.g., analyze_expression.R)
+In the same directory (~/nextflow_workflow), create the R script analyze_expression.R which will be used to analyze the gene expression data.
+
+bash
+Copy code
+nano analyze_expression.R
+Add your R script for differential expression analysis or any other analysis you wish to perform. For example:
+
+r
+Copy code
+# R script to read gene expression data and perform differential expression analysis
+
+# Load necessary libraries
+library(DESeq2)
+library(readr)
+
