@@ -79,7 +79,7 @@ library(DESeq2)
 library(ggplot2)
 
 # Load the data
-data_file <- "/path/to/your/data.csv"
+data_file <- "/Users/madhuchavali/Downloads/GSE283983.csv"
 count_data <- read.csv(data_file, check.names = FALSE, row.names = NULL)
 
 # Assign row names from 'Feature ID' column and remove 'Feature ID'
