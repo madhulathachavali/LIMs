@@ -70,3 +70,20 @@ library(reader)
 
 ## data from https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE283983
 
+********************************************************************
+#### steps 
+R
+
+install.packages("DESeq2")
+install.packages("ggplot2")
+
+library(DESeq2)
+library(ggplot2)
+# Load Your Dataset
+# Load the dataset
+data_file <- "/Users/madhuchavali/Downloads/GSE283983.csv"
+count_data <- read.csv(data_file, row.names = 1, check.names = FALSE)
+
+# Check the first few rows
+head(count_data)
+
