@@ -65,5 +65,8 @@ Copy code
 
 # Load necessary libraries
 library(DESeq2)
-library(readr)
+library(reader)
+
+
+## data from https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE283983
 
